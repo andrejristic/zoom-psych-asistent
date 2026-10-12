@@ -18,7 +18,9 @@ Opšti dio je u [PLAN.md](PLAN.md), a detalji aplikacija u [APP1-rijeci.md](APP1
 | Upozorenje | kartica zasvijetli i napiše zašto; bez zvuka |
 | Dijeljenje ekrana | dugme i prečica (Ctrl+Shift+H) za sakrij/prikaži. Na Win/Mac prozor može biti potpuno nevidljiv za screen share, a na Linux X11 to tehnički nije moguće |
 | Jezik savjeta | prati jezik poziva (en → en, sr → sr latinica), može se promijeniti u podešavanjima |
-| API ključevi u MVP-u | korisnik ih unosi u podešavanjima, čuvaju se lokalno i šifrovano (OS keyring) |
+| Anthropic veza | **API ključ** (console.anthropic.com), jer Claude Pro/Max pretplata nije dozvoljena za aplikacije trećih strana. Dugme "Otvori konzolu" otvara default browser na stranici sa ključevima. Ključ se drži **samo u memoriji**, pa se ponovo unosi pri svakom pokretanju aplikacije |
+| AWS veza | panel "AWS" u podešavanjima (sivo dok nije podešeno). Prijava preko browsera (IAM Identity Center / SSO) ili access key. Region je izborni (default ca-central-1). Takođe samo za sesiju. Kad je spojeno, otključava Bedrock (Claude iz kredita) i Transcribe |
+| Izbor LLM puta | padajući meni: Claude preko Anthropic API ili Claude preko AWS Bedrock |
 
 **Šta se mijenja u fazama za MVP:**
 - **Faze 2–5** se spajaju u jednu desktop aplikaciju. Server dolazi tek u fazi 7.
