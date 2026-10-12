@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+.next/
+dist/
+target/
+*.wav
+*.mp3
+*.mp4
+benchmark/data/recordings/
+.DS_Store
+.idea/
+.vscode/
