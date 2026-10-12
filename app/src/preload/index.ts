@@ -2,6 +2,7 @@ import { contextBridge, ipcRenderer, type IpcRendererEvent } from 'electron'
 import type { Api, MainEvent } from '../shared/ipc'
 
 const api: Api = {
+  platform: process.platform,
   getSettings: () => ipcRenderer.invoke('settings:get'),
   setSettings: (patch) => ipcRenderer.invoke('settings:set', patch),
   listDevices: () => ipcRenderer.invoke('devices:list'),

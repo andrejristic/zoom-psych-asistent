@@ -20,6 +20,7 @@ interface PwObject {
 }
 
 export async function listDevices(): Promise<AudioDevice[]> {
+  if (process.platform !== 'linux') return []
   const { stdout } = await run('pw-dump', [], { maxBuffer: 32 * 1024 * 1024 })
   const objects = JSON.parse(stdout) as PwObject[]
   let defaultSink = ''

@@ -102,7 +102,8 @@ const sr = {
   ethics: 'Savet nije presuda. Aplikacija ne otkriva laž, nego opisuje šta se ne slaže i predlaže pitanje.',
   error: 'Greška',
   chLanguage: 'reči',
-  chTiming: 'tajming'
+  chTiming: 'tajming',
+  liveLinuxOnly: 'Hvatanje zvuka uživo za ovaj sistem dolazi u sledećoj verziji. Za sada radi na Linuxu (Ubuntu). Replay i demo rade svuda.'
 }
 
 export type Strings = typeof sr
@@ -208,7 +209,8 @@ const en: Strings = {
   ethics: 'Advice is not a verdict. The app does not detect lies; it describes what does not add up and suggests a question.',
   error: 'Error',
   chLanguage: 'words',
-  chTiming: 'timing'
+  chTiming: 'timing',
+  liveLinuxOnly: 'Live audio capture for this system comes in the next version. For now it works on Linux (Ubuntu). Replay and the demos work everywhere.'
 }
 
 export const STRINGS: Record<UiLang, Strings> = { sr, en }

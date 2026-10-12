@@ -15,7 +15,8 @@
     "build": "electron-vite build",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
-    "dist": "electron-vite build && electron-builder --linux deb"
+    "dist": "electron-vite build && electron-builder --linux deb",
+    "dist:win": "electron-vite build && electron-builder --win nsis"
   },
   "devDependencies": {
     "@types/node": "22.10.2",

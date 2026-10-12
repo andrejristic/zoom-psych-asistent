@@ -79,14 +79,15 @@ export function StartPanel({ t, settings, update }: Props) {
         </>
       )}
 
-      {mode === 'live' && <p className="muted small">{t.headphones}</p>}
+      {mode === 'live' && window.api.platform === 'linux' && <p className="muted small">{t.headphones}</p>}
+      {mode === 'live' && window.api.platform !== 'linux' && <div className="notice">{t.liveLinuxOnly}</div>}
 
       <label className="field">
         <span>{t.goal}</span>
         <input value={goal} placeholder={t.goalPlaceholder} onChange={(e) => setGoal(e.target.value)} />
       </label>
 
-      <button className="btn primary wide" onClick={start} disabled={mode === 'replay' && !source}>
+      <button className="btn primary wide" onClick={start} disabled={(mode === 'replay' && !source) || (mode === 'live' && window.api.platform !== 'linux')}>
         {t.start}
       </button>
       <p className="muted small center">{t.idleHint}</p>

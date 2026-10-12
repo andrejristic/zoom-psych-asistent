@@ -21,6 +21,7 @@ linux:
   executableName: psych-asistent
   synopsis: AI conversation coach for Zoom calls
 deb:
+  artifactName: psych-asistent_${version}_amd64.${ext}
   depends:
     - libgtk-3-0
     - libnss3
@@ -29,3 +30,11 @@ deb:
     - libnotify4
     - pipewire-bin
   packageCategory: misc
+win:
+  target: nsis
+  icon: build/icon.png
+  artifactName: PsychAsistent-Setup-${version}.${ext}
+nsis:
+  oneClick: true
+  perMachine: false
+  deleteAppDataOnUninstall: false

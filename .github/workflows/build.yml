@@ -1,0 +1,94 @@
+name: Build
+
+# Tests, then builds the Ubuntu .deb and the Windows .exe. The Windows job
+# installs the .exe and runs the app off screen through a demo replay,
+# saving screenshots as an artifact.
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: app
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+
+  deb:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      - run: npx electron-vite build
+      - run: npx electron-builder --linux deb --publish never
+      - name: Check package
+        run: |
+          dpkg-deb -I dist/*.deb
+          dpkg-deb -c dist/*.deb | grep -q 'resources/demos/en-sales-call.txt'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deb
+          path: app/dist/*.deb
+
+  exe:
+    needs: test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      - run: npx electron-vite build
+      - run: npx electron-builder --win nsis --publish never
+      - name: Install and run a demo off screen
+        shell: pwsh
+        run: |
+          $setup = Get-ChildItem dist -Filter 'PsychAsistent-Setup-*.exe' | Select-Object -First 1
+          Start-Process $setup.FullName -ArgumentList '/S' -Wait
+          $exe = Get-ChildItem "$env:LOCALAPPDATA\Programs" -Recurse -Filter 'Psych Asistent.exe' | Select-Object -First 1
+          if (-not $exe) { throw 'installed app not found' }
+          Write-Host "Installed: $($exe.FullName)"
+          $shots = "$env:RUNNER_TEMP\shots"
+          New-Item -ItemType Directory -Force $shots | Out-Null
+          $env:PSYCH_SHOT = $shots
+          $p = Start-Process $exe.FullName -PassThru
+          if (-not $p.WaitForExit(150000)) { $p.Kill(); throw 'app did not finish the demo' }
+          $files = Get-ChildItem $shots -Filter *.png
+          $files | ForEach-Object { Write-Host "$($_.Name) $($_.Length)" }
+          if ($files.Count -lt 5) { throw "expected 5 screenshots, got $($files.Count)" }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: exe
+          path: app/dist/PsychAsistent-Setup-*.exe
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-screenshots
+          path: ${{ runner.temp }}/shots

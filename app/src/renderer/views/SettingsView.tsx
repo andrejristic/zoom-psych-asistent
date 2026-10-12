@@ -132,7 +132,8 @@ export function SettingsView({ t, settings: s, update, levels }: Props) {
         </div>
       </Section>
 
-      <Section title={t.sAudio}>
+      <Section title={t.sAudio} disabled={window.api.platform !== 'linux'}>
+        {window.api.platform !== 'linux' && <p className="muted small">{t.liveLinuxOnly}</p>}
         <label className="field">
           <span>{t.micDevice}</span>
           {deviceSelect('mic', s.micDevice, 'micDevice')}
@@ -142,7 +143,7 @@ export function SettingsView({ t, settings: s, update, levels }: Props) {
           {deviceSelect('speaker', s.speakerDevice, 'speakerDevice')}
         </label>
         <div className="row">
-          <button className="btn ghost small" onClick={test} disabled={testing}>
+          <button className="btn ghost small" onClick={test} disabled={testing || window.api.platform !== 'linux'}>
             {t.testAudio}
           </button>
         </div>

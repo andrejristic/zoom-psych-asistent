@@ -94,6 +94,11 @@ export class SessionManager {
       return
     }
 
+    if (process.platform !== 'linux') {
+      this.engine = undefined
+      this.send({ kind: 'error', message: 'Live audio capture is available on Linux only in this version.' })
+      return
+    }
     this.title = `Zoom ${new Date().toLocaleString()}`
     const t0 = Date.now()
     this.stt = this.sttProvider()
@@ -162,7 +167,7 @@ export class SessionManager {
 
   /** Short capture to check that both streams have sound. Levels only, nothing is saved. */
   testAudio(seconds: number): void {
-    if (this.capture) return
+    if (this.capture || process.platform !== 'linux') return
     const s = this.settings()
     const cap = new AudioCapture({
       micDevice: s.micDevice,

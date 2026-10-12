@@ -65,6 +65,8 @@ export type MainEvent =
   | { kind: 'visibility'; hidden: boolean }
 
 export interface Api {
+  /** Node's process.platform: live audio capture exists on 'linux' only for now. */
+  platform: string
   getSettings(): Promise<Settings>
   setSettings(patch: Partial<Settings>): Promise<Settings>
   listDevices(): Promise<AudioDevice[]>
