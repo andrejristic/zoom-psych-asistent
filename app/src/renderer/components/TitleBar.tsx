@@ -17,6 +17,11 @@ export function TitleBar({ t, state, inSettings, onSettings }: Props) {
       <span className={`dot ${state.status}`} />
       <span className="app-name">{t.appName}</span>
       {state.status !== 'idle' && <span className="clock">{clock(state.t)}</span>}
+      {state.status === 'running' && state.provider && (
+        <span className="provider-chip" title={t.analysisBy}>
+          {state.provider === 'demo' ? 'Demo' : state.provider === 'bedrock' ? 'Claude · Bedrock' : 'Claude'}
+        </span>
+      )}
       <span className="spacer" />
       {running && (
         <button className="btn danger small" onClick={() => void window.api.stop()}>

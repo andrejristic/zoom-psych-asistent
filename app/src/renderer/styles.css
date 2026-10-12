@@ -610,3 +610,19 @@ mark.tag-commitment {
 .icon svg {
   display: block;
 }
+
+.form-error {
+  color: var(--alert);
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+.settings form .row {
+  margin-top: 4px;
+}
+.provider-chip {
+  font-size: 11px;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0 7px;
+}

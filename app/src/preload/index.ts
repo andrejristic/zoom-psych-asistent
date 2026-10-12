@@ -17,6 +17,10 @@ const api: Api = {
   listSessions: () => ipcRenderer.invoke('sessions:list'),
   openExternal: (target) => ipcRenderer.invoke('external:open', target),
   window: (action) => ipcRenderer.invoke('window', action),
+  getConnections: () => ipcRenderer.invoke('connections:get'),
+  connectAnthropic: (key) => ipcRenderer.invoke('connections:anthropic', key),
+  connectAws: (input) => ipcRenderer.invoke('connections:aws', input),
+  disconnect: (kind) => ipcRenderer.invoke('connections:disconnect', kind),
   onEvent: (cb) => {
     const listener = (_e: IpcRendererEvent, ev: MainEvent) => cb(ev)
     ipcRenderer.on('event', listener)

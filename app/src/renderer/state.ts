@@ -15,6 +15,7 @@ export interface State {
   mode?: 'replay' | 'live'
   title?: string
   note?: string
+  provider?: string
   t: number
   utterances: Utterance[]
   turns: Record<string, AnalyzedTurn>
@@ -50,7 +51,7 @@ export function reducer(s: State, a: Action): State {
   switch (a.kind) {
     case 'status':
       if (a.state === 'running') {
-        return { ...initialState, status: 'running', mode: a.mode, title: a.title, note: a.note, report: undefined }
+        return { ...initialState, status: 'running', mode: a.mode, title: a.title, note: a.note, provider: a.provider, report: undefined }
       }
       return { ...s, status: a.state }
     case 'time':

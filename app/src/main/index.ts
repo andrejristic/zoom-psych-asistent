@@ -1,9 +1,10 @@
 import { app, BrowserWindow, dialog, globalShortcut, ipcMain, Menu, nativeImage, screen, shell, Tray } from 'electron'
 import { writeFileSync } from 'node:fs'
 import { join } from 'node:path'
-import type { MainEvent, Settings, StartOptions } from '../shared/ipc'
+import type { AwsInput, MainEvent, Settings, StartOptions } from '../shared/ipc'
 import type { ConversationContext } from '../core/types'
 import { listDevices } from './audio'
+import { connectAnthropic, connectAws, connections, disconnect } from './connections'
 import { reportMarkdown } from './report'
 import { listDemos, SessionManager } from './session'
 import { listSessions, loadSession, loadSettings, saveSettings, sessionsDir } from './store'
@@ -11,7 +12,7 @@ import { listSessions, loadSession, loadSettings, saveSettings, sessionsDir } fr
 const HIDE_SHORTCUT = 'CommandOrControl+Shift+H'
 const LINKS = {
   'anthropic-console': 'https://console.anthropic.com/settings/keys',
-  'aws-console': 'https://console.aws.amazon.com/'
+  'aws-console': 'https://console.aws.amazon.com/iam/home#/security_credentials'
 }
 
 let win: BrowserWindow | undefined
@@ -114,6 +115,10 @@ function registerIpc(): void {
   ipcMain.handle('advice:feedback', (_e, id: string, rating: 'up' | 'down' | undefined) => sessions.feedback(id, rating))
   ipcMain.handle('context:set', (_e, ctx: ConversationContext) => sessions.setContext(ctx))
   ipcMain.handle('sessions:list', () => listSessions())
+  ipcMain.handle('connections:get', () => connections())
+  ipcMain.handle('connections:anthropic', (_e, key: string) => connectAnthropic(key))
+  ipcMain.handle('connections:aws', (_e, input: AwsInput) => connectAws(input))
+  ipcMain.handle('connections:disconnect', (_e, kind: 'anthropic' | 'aws') => disconnect(kind))
   ipcMain.handle('report:export', async (_e, id: string) => {
     const s = loadSession(id) ?? (sessions.last?.id === id ? sessions.last : undefined)
     if (!s) return undefined

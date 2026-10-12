@@ -62,6 +62,8 @@ export class Engine {
   private queue: Promise<void> = Promise.resolve()
   private adviceLangSent?: AdviceLang
   private pendingType?: ConversationContext['type']
+  private userSpeaking = false
+  private held?: Advice
 
   constructor(private readonly opts: EngineOptions) {
     this.baseline = new SpeakerBaseline(opts.baselineMinSamples ?? 8)
@@ -95,6 +97,19 @@ export class Engine {
   setContext(ctx: ConversationContext): void {
     this.context = { ...ctx, manual: true }
     this.opts.emit({ kind: 'context', context: this.context })
+  }
+
+  /**
+   * While the user is talking, new advice waits, so it does not appear in the
+   * middle of their sentence. Live STT reports this from interim results.
+   */
+  setUserSpeaking(speaking: boolean): void {
+    this.userSpeaking = speaking
+    if (!speaking && this.held) {
+      const advice = this.held
+      this.held = undefined
+      this.opts.emit({ kind: 'advice', advice })
+    }
   }
 
   feedback(adviceId: string, rating: 'up' | 'down' | undefined): void {
@@ -236,7 +251,8 @@ export class Engine {
       provider: this.opts.provider.id
     }
     this.advice.push(advice)
-    this.opts.emit({ kind: 'advice', advice })
+    if (this.userSpeaking) this.held = advice
+    else this.opts.emit({ kind: 'advice', advice })
   }
 
   private async runContext(now: number): Promise<void> {

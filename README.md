@@ -8,21 +8,24 @@ Proizvod ZeravaTech (zeravatech.ca), trenutno u fazi planiranja.
 - [APP1-rijeci.md](APP1-rijeci.md): App 1, savjeti samo iz riječi
 - [APP2-multimodal.md](APP2-multimodal.md): App 2, riječi + glas + lice
 
-## Aplikacija (App 1, verzija 0.1.0)
+## Aplikacija (App 1, verzija 0.2.0)
 
 Kod je u [app/](app/): Electron + React + TypeScript. Licenca je GPL-3.0-or-later, vidi [LICENSE](LICENSE) i [NOTICE](NOTICE).
 
-**Šta radi sada:**
+**Šta radi:**
 - Uzak prozor pored Zooma: savet sa obrazloženjem, kontekst razgovora, indikatori, transkript sa označenim signalima, izveštaj na kraju.
-- Replay mod: pušta transkript (demo ili sopstveni `.txt` / `.json`) kao da je poziv uživo.
-- Hvatanje zvuka iz Zooma preko PipeWire-a (mikrofon i zvučnici odvojeno), sa meračem zvuka.
-- Analiza "Demo": pravila bez AI-ja (leksikoni en/sr, baseline sugovornika, tajming, kontradikcije).
+- **Claude analiza** preko korisnikovog Anthropic API ključa ili preko AWS Bedrocka (brzi model označava svaku izjavu, glavni daje savete, kontekst i izveštaj).
+- **Govor u tekst uživo** preko Amazon Transcribe (engleski i srpski), sa korisnikovim AWS ključem. Mikrofon i zvučnici se hvataju odvojeno (PipeWire, Linux).
+- Ključevi se drže samo u memoriji i nestaju kad se aplikacija zatvori.
+- Replay mod i "Demo" analiza (pravila, bez AI) rade i bez ikakvih ključeva.
 
-**Još nije povezano:** Anthropic API, AWS Bedrock, Amazon Transcribe (govor u tekst).
+**Šta korisnik treba:** Anthropic API ključ (console.anthropic.com) i/ili AWS IAM access key sa dozvolama za Transcribe streaming i Bedrock. Slušalice za pozive uživo.
+
+**Ograničenja:** hvatanje zvuka uživo samo na Linuxu; na Windowsu rade replay i analiza.
 
 **Instalacija (Ubuntu):**
 ```bash
-sudo apt install ./app/dist/psych-asistent_0.1.0_amd64.deb
+sudo apt install ./psych-asistent_0.2.0_amd64.deb   # sa stranice Releases
 ```
 
 **Razvoj:**

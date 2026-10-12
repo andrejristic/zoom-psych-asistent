@@ -3,6 +3,7 @@ import type { AudioDevice, SessionSummary, Settings } from '../../shared/ipc'
 import { clock } from '../../core/advisor/phrases'
 import type { Strings } from '../i18n'
 import { Levels } from '../components/Levels'
+import { AiSettings } from './AiSettings'
 
 interface Props {
   t: Strings
@@ -19,8 +20,6 @@ function Section({ title, children, disabled }: { title: string; children: React
     </section>
   )
 }
-
-const AWS_REGIONS = ['ca-central-1', 'us-east-1', 'us-west-2', 'eu-central-1']
 
 export function SettingsView({ t, settings: s, update, levels }: Props) {
   const [devices, setDevices] = useState<AudioDevice[]>([])
@@ -81,56 +80,7 @@ export function SettingsView({ t, settings: s, update, levels }: Props) {
         </label>
       </Section>
 
-      <Section title={t.sAi}>
-        <label className="field">
-          <span>{t.provider}</span>
-          <select value={s.provider} onChange={(e) => void update({ provider: e.target.value as Settings['provider'] })}>
-            <option value="demo">{t.providerDemo}</option>
-            <option value="anthropic" disabled>
-              {t.providerAnthropic} ({t.soon})
-            </option>
-            <option value="bedrock" disabled>
-              {t.providerBedrock} ({t.soon})
-            </option>
-          </select>
-        </label>
-      </Section>
-
-      <Section title={t.anthropic} disabled>
-        <div className="status-row">
-          <span className="dot idle" /> {t.notConnected}
-        </div>
-        <p className="muted small">{t.anthropicHelp}</p>
-        <input type="password" placeholder="sk-ant-…" disabled />
-        <button className="btn ghost small" onClick={() => void window.api.openExternal('anthropic-console')}>
-          {t.openConsole} ↗
-        </button>
-      </Section>
-
-      <Section title={t.aws} disabled>
-        <div className="status-row">
-          <span className="dot idle" /> {t.notConnected}
-        </div>
-        <p className="muted small">{t.awsHelp}</p>
-        <label className="field">
-          <span>{t.region}</span>
-          <select value={s.awsRegion} onChange={(e) => void update({ awsRegion: e.target.value })}>
-            {AWS_REGIONS.map((r) => (
-              <option key={r} value={r}>
-                {r}
-              </option>
-            ))}
-          </select>
-        </label>
-        <div className="row">
-          <button className="btn ghost small" disabled>
-            {t.awsSso}
-          </button>
-          <button className="btn ghost small" disabled>
-            {t.awsKeys}
-          </button>
-        </div>
-      </Section>
+      <AiSettings t={t} settings={s} update={update} />
 
       <Section title={t.sAudio} disabled={window.api.platform !== 'linux'}>
         {window.api.platform !== 'linux' && <p className="muted small">{t.liveLinuxOnly}</p>}

@@ -1,4 +1,5 @@
 import type { AdviceLangSetting, ConversationContext, EngineEvent, Lang, SessionReport } from '../core/types'
+import type { ClaudeModel } from '../core/providers/models'
 
 export type UiLang = 'sr' | 'en'
 export type ProviderId = 'demo' | 'anthropic' | 'bedrock'
@@ -16,6 +17,8 @@ export interface Settings {
   saveAudio: boolean
   replaySpeed: number
   awsRegion: string
+  fastModel: ClaudeModel
+  deepModel: ClaudeModel
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -29,7 +32,9 @@ export const DEFAULT_SETTINGS: Settings = {
   saveSessions: true,
   saveAudio: false,
   replaySpeed: 4,
-  awsRegion: 'ca-central-1'
+  awsRegion: 'ca-central-1',
+  fastModel: 'claude-haiku-5-5',
+  deepModel: 'claude-sonnet-5-5'
 }
 
 export interface AudioDevice {
@@ -42,6 +47,19 @@ export interface AudioDevice {
 export interface DemoInfo {
   id: string
   title: string
+}
+
+/** What is connected right now. Never contains a key, only a masked label. */
+export interface Connections {
+  anthropic: { connected: boolean; label: string }
+  aws: { connected: boolean; label: string; region: string }
+}
+
+export interface AwsInput {
+  accessKeyId: string
+  secretAccessKey: string
+  sessionToken?: string
+  region: string
 }
 
 export type StartOptions =
@@ -60,7 +78,7 @@ export type MainEvent =
   | EngineEvent
   | { kind: 'time'; t: number }
   | { kind: 'levels'; mic: number; speaker: number }
-  | { kind: 'status'; state: 'idle' | 'running' | 'finishing'; mode?: 'replay' | 'live'; title?: string; note?: string }
+  | { kind: 'status'; state: 'idle' | 'running' | 'finishing'; mode?: 'replay' | 'live'; title?: string; note?: string; provider?: string }
   | { kind: 'report'; report: SessionReport; sessionId: string }
   | { kind: 'visibility'; hidden: boolean }
 
@@ -81,5 +99,9 @@ export interface Api {
   listSessions(): Promise<SessionSummary[]>
   openExternal(url: 'anthropic-console' | 'aws-console' | 'sessions-folder'): Promise<void>
   window(action: 'minimize' | 'close' | 'hide'): Promise<void>
+  getConnections(): Promise<Connections>
+  connectAnthropic(key: string): Promise<Connections>
+  connectAws(input: AwsInput): Promise<Connections>
+  disconnect(kind: 'anthropic' | 'aws'): Promise<Connections>
   onEvent(cb: (ev: MainEvent) => void): () => void
 }

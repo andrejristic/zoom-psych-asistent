@@ -9,6 +9,7 @@ import { ReplayPlayer } from '../core/replay/player'
 import { parseTranscript, type Transcript } from '../core/replay/transcript'
 import type { DemoInfo, MainEvent, Settings, StartOptions } from '../shared/ipc'
 import { AudioCapture } from './audio'
+import { claudeProvider, transcribe } from './connections'
 import { recordingsDir, saveSession, type StoredSession } from './store'
 
 function demosDir(): string {
@@ -54,14 +55,19 @@ export class SessionManager {
     return !!this.engine
   }
 
-  /** The AI backend for analysis. Only Demo exists until the connections are added. */
+  /** The AI backend chosen in Settings; Demo when that one is not connected. */
   private provider(): LLMProvider {
+    const s = this.settings()
+    if (s.provider === 'demo') return new DemoProvider()
+    const claude = claudeProvider(s.provider, { fast: s.fastModel, deep: s.deepModel })
+    if (claude) return claude
+    this.send({ kind: 'error', message: `${s.provider === 'anthropic' ? 'Anthropic' : 'AWS Bedrock'} is not connected; using Demo analysis.` })
     return new DemoProvider()
   }
 
-  /** The speech-to-text backend for live calls; none is connected yet. */
+  /** Speech-to-text for live calls: Amazon Transcribe when AWS is connected. */
   private sttProvider(): STTProvider | undefined {
-    return undefined
+    return transcribe(this.settings().callLang)
   }
 
   async start(opts: StartOptions): Promise<void> {
@@ -69,8 +75,9 @@ export class SessionManager {
     const s = this.settings()
     this.id = new Date().toISOString().replace(/[:.]/g, '-')
     this.startedAt = new Date().toISOString()
+    const provider = this.provider()
     const engine = new Engine({
-      provider: this.provider(),
+      provider,
       callLang: s.callLang,
       adviceLang: s.adviceLang,
       goal: opts.goal?.trim() || undefined,
@@ -82,7 +89,7 @@ export class SessionManager {
     if (opts.mode === 'replay') {
       const transcript = loadTranscript(opts)
       this.title = transcript.title
-      this.send({ kind: 'status', state: 'running', mode: 'replay', title: this.title })
+      this.send({ kind: 'status', state: 'running', mode: 'replay', title: this.title, provider: provider.id })
       this.player = new ReplayPlayer(
         transcript,
         engine,
@@ -104,7 +111,13 @@ export class SessionManager {
     this.stt = this.sttProvider()
     if (this.stt) {
       await this.stt.start({
-        onFinal: (u) => void engine.addUtterance(u),
+        onFinal: (u) => {
+          if (u.speaker === 'A') engine.setUserSpeaking(false)
+          void engine.addUtterance(u)
+        },
+        onPartial: (speaker) => {
+          if (speaker === 'A') engine.setUserSpeaking(true)
+        },
         onError: (message) => this.send({ kind: 'error', message })
       })
     }
@@ -127,7 +140,8 @@ export class SessionManager {
       state: 'running',
       mode: 'live',
       title: this.title,
-      note: this.stt ? undefined : 'stt-missing'
+      note: this.stt ? undefined : 'stt-missing',
+      provider: provider.id
     })
   }
 
