@@ -1,0 +1,50 @@
+# title: Demo: pregovori sa dobavljačem (srpski)
+# lang: sr
+# Izmišljen razgovor. B je dobavljač opreme, A pregovara o narudžbini.
+# Ubačeni momenti: kontradikcija o roku isporuke, izbegavanje pitanja o ceni
+# uz dugu pauzu, uveravanje, prebacivanje odgovornosti, "ma nema problema".
+
+A: Dobar dan Miloše, hvala što ste odvojili vreme.
+B: Dobar dan, nema na čemu, drago mi je da se konačno čujemo.
+A: Da krenemo od toga čime se tačno bavite?
+B: Mi proizvodimo i montiramo industrijske police i sisteme za skladištenje, uglavnom za magacine i distributivne centre.
+A: Koliko dugo ste na tržištu?
+B: Firma postoji petnaest godina, a poslednjih pet godina radimo i sa klijentima u inostranstvu.
+A: Sa kim ste radili od većih klijenata?
+B: Radili smo za nekoliko lanaca supermarketa i za dve velike logističke firme u Beogradu i Novom Sadu.
+A: Ko bi kod vas bio zadužen za naš projekat?
+B: Ja bih vodio projekat, a imamo i inženjera koji dolazi na teren i šefa montaže sa svojom ekipom.
+A: Kako izgleda proces od narudžbine do montaže?
+B: Prvo izađemo na teren i izmerimo prostor, onda pravimo projekat, pa proizvodnja i na kraju montaža.
+A: Da li vi radite i projekat ili to moramo posebno?
+B: Projekat je uključen u cenu, to radimo sami i šaljemo vam na odobrenje pre proizvodnje.
+A: Dobro. Kada biste mogli da isporučite opremu za prvu halu?
+B: Za taj obim obično isporučimo za četiri nedelje od potpisivanja ugovora.
+A: To bi nam odgovaralo. Koliko bi koštala prva faza?
+B: [+3.1] [wpm=110] Ovaj, pa to je duga priča. Zavisi od mnogo stvari, iskreno da vam kažem.
+A: Možete li bar otprilike da mi kažete?
+B: Pa, tamo negde, ovaj, manje više kao prošle godine, možda malo više.
+A: Dobro, vratićemo se na to. Da li radite i demontažu starih polica?
+B: Da, demontažu i odvoz radimo mi, to obično traje dan ili dva, zavisno od količine.
+A: A da li nam ostavljate dokumentaciju i atest?
+B: Naravno, dobijate kompletnu dokumentaciju, atest za nosivost i uputstvo za održavanje.
+A: Zašto ste prošle godine podigli cene za dvadeset posto?
+B: [+1.7] Tako je odlučeno u upravi, to nije moja odluka, ja sam samo preneo informaciju.
+A: Da li postoji rizik da kasni čelik zbog dobavljača?
+B: Ma nema problema, biće to u redu, imamo zalihe.
+A: Kakvu garanciju dajete na montažu?
+B: Kako bi to izgledalo kod vas sa održavanjem? Recite mi više o tome kako sada rešavate servis.
+A: Sada imamo spoljnu firmu koja dolazi dva puta godišnje.
+B: Zanimljivo. Koji su sledeći koraci kod vas, i koliko brzo biste mogli da nam pošaljete tačne dimenzije?
+A: Dimenzije možemo da pošaljemo do petka.
+B: Odlično, to zvuči dobro. Ko kod vas donosi konačnu odluku?
+A: Ja i direktor. Znači, kada bi realno sve bilo montirano ako potpišemo ovog meseca?
+B: Realno, za dva do tri meseca, ako sve prođe kako treba.
+A: To je dosta drugačije od onoga što ste rekli na početku.
+B: [+2.0] Pa. Dobro. Zavisi.
+A: Pošaljite mi ponudu sa svim stavkama.
+B: Važi.
+A: I referencu nekog klijenta iz logistike?
+B: Proveriću.
+A: Hvala, čujemo se sledeće nedelje.
+B: Čujemo se.

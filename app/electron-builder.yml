@@ -1,0 +1,31 @@
+appId: ca.zeravatech.psychasistent
+productName: Psych Asistent
+copyright: Copyright © 2026 ZeravaTech
+directories:
+  output: dist
+  buildResources: build
+files:
+  - out/**
+  - package.json
+  - LICENSE
+  - NOTICE
+extraResources:
+  - from: resources/demos
+    to: demos
+  - from: build/icon.png
+    to: icons/icon.png
+linux:
+  target: deb
+  category: Office
+  icon: build/icon.png
+  executableName: psych-asistent
+  synopsis: AI conversation coach for Zoom calls
+deb:
+  depends:
+    - libgtk-3-0
+    - libnss3
+    - libxss1
+    - libxtst6
+    - libnotify4
+    - pipewire-bin
+  packageCategory: misc

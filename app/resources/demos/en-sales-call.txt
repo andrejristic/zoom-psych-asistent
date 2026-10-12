@@ -1,0 +1,52 @@
+# title: Demo: SaaS sales call (English)
+# lang: en
+# Fictional call. B is a vendor's account manager, A is evaluating the product.
+# Planted moments: delivery contradiction, price deflection with a long pause,
+# hedging, distancing, a "no worries", rising interest, then shorter answers.
+
+A: Hi Mark, thanks for making the time today.
+B: Of course, happy to be here. I've been looking forward to this conversation.
+A: Great. Could you start with a quick overview of what your platform does?
+B: Sure. We help mid-sized teams manage customer onboarding in one place, from contracts to training and support tickets.
+A: How many customers are using it right now?
+B: We have a little over four hundred companies on the platform, mostly in North America and some in Europe.
+A: And what does a typical team look like on your side?
+B: Usually an account manager like me, a solutions engineer, and a support lead who stays with you after launch.
+A: That sounds reasonable. What kind of integrations do you support?
+B: We integrate with the major CRMs, single sign on providers, and we have an open API for everything else.
+A: Do you have customers in our industry, logistics?
+B: Yes, we work with a few logistics companies, two of them are about your size and they've been with us for over two years.
+A: Okay. What does the onboarding process look like?
+B: We start with a kickoff call, then a configuration workshop, then we migrate your data and train your team in small groups.
+A: Who handles the data migration?
+B: Our solutions engineer does most of it, your team just needs to give us access and review the results.
+A: When could you have the integration ready?
+B: For a team your size we can usually do it in three weeks, that's pretty standard for us.
+A: That would work for us. And what about pricing for fifty seats?
+B: [+2.9] [wpm=115] Um, well, that's a good question. It depends on a lot of things, honestly.
+A: Can you give me a rough range?
+B: I'd say somewhere around, uh, fifteen to twenty percent above what you pay for your current tool, more or less.
+A: Okay, we can come back to that. What reporting do we get out of the box?
+B: You get dashboards for onboarding progress, time to first value, and support ticket trends, and you can export everything.
+A: Can managers build their own reports?
+B: Yes, there's a simple report builder, most managers learn it in an afternoon.
+A: Why did you drop the on premise option last year?
+B: [+1.6] It was decided at the leadership level, that was before my time, so I can't really speak to it.
+A: Our security team will ask about that. Is there any risk with data residency in Canada?
+B: No worries, it should be fine. We have customers in Canada already.
+A: Okay. How does single sign on work in practice?
+B: How would that work with your identity provider today? Can you walk me through your current setup?
+A: We use Okta for everything, and Google Workspace for email.
+B: Interesting. What does onboarding look like for new employees on your side, and how soon could we get access to a test tenant?
+A: We could probably give you a test tenant next week.
+B: Great, that sounds good. What are the next steps on your side to get approval?
+A: I need to present this to our director. So when would we actually go live if we sign this month?
+B: Realistically six to eight weeks, if everything goes smoothly on both sides.
+A: That's quite different from what you said earlier.
+B: [+1.9] Right. Well. It depends.
+A: Can you send me the security documentation?
+B: Sure.
+A: And a reference customer in logistics?
+B: I'll check.
+A: Okay, thanks Mark. Let's talk next week.
+B: Talk soon.
