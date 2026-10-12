@@ -120,11 +120,13 @@ zoom-psych-asistent/
 ```
 
 ### Stack
-- **Server:** Python 3.12, FastAPI, Pipecat, LiteLLM
-- **Frontend:** Next.js, na `app.zeravatech.ca`
-- **Desktop:** Tauri (Windows, Mac, Linux)
-- **Baza i auth:** Postgres + Auth (Supabase ili Neon + Clerk)
-- **Hosting:** Fly.io Toronto ili AWS ca-central-1
+- **Jezik:** TypeScript svuda (desktop, server, zajednički `core`)
+- **Desktop:** Electron + React. Hvata zvuk, prikazuje prozor asistenta, pakuje se u `.deb`, kasnije `.exe` / `.dmg`.
+- **AI:** AWS (Bedrock za Claude, Transcribe za STT) iz AWS kredita + Anthropic API direktno. Ostali provajderi su adapteri za kasnije.
+- **Server (od faze 7):** Node + Fastify na `api.zeravatech.ca`. U MVP-u orkestracija radi u desktop aplikaciji, a AI je i dalje u cloudu.
+- **Web:** Next.js na `app.zeravatech.ca` (nalog, izvještaji, plaćanje)
+- **Baza i auth:** MVP koristi SQLite lokalno; proizvod koristi Postgres + Auth (Supabase ili Clerk)
+- **Hosting:** AWS ca-central-1 (pokriva ga kredit)
 - **Plaćanje:** Stripe (CAD, porezi GST/HST preko Stripe Tax)
 - **Praćenje:** Langfuse (LLM), Sentry (greške)
 

@@ -3,6 +3,28 @@
 Proizvod ZeravaTech · zeravatech.ca · engleski + srpski · kontekst se čita iz govora.
 Opšti dio je u [PLAN.md](PLAN.md), a detalji aplikacija u [APP1-rijeci.md](APP1-rijeci.md) i [APP2-multimodal.md](APP2-multimodal.md).
 
+## Odluke za App 1 MVP (11.10.2026)
+
+| Tema | Odluka |
+|---|---|
+| Ko pravi | Claude piše sav kod i pravi `.deb`, Andrej instalira i testira u pravim pozivima |
+| Isporuka | `.deb` za Ubuntu (X11, PipeWire, Zoom flatpak). Kasnije Windows i Mac |
+| Stack | TypeScript + Electron + React (vidi PLAN.md §3) |
+| AI | **Anthropic API** odmah (LLM). **AWS** (Bedrock + Transcribe) kad se otvori nalog i stigne kredit od $10k |
+| Govor u tekst do AWS-a | nema; razvoj ide preko replay moda nad javnim snimcima sa gotovim transkriptima (YouTube titlovi sa vremenom riječi) |
+| Test snimci | javni (podcasti, intervjui, debate), samo za interni razvoj |
+| Pozivi | samo 1-na-1 u prvoj verziji |
+| Prozor | dugačak uski prozor pored Zooma: **savjet + šta sam primijetio**, **transkript uživo**, **kontekst**, **indikatori** |
+| Upozorenje | kartica zasvijetli i napiše zašto; bez zvuka |
+| Dijeljenje ekrana | dugme i prečica (Ctrl+Shift+H) za sakrij/prikaži. Na Win/Mac prozor može biti potpuno nevidljiv za screen share, a na Linux X11 to tehnički nije moguće |
+| Jezik savjeta | prati jezik poziva (en → en, sr → sr latinica), može se promijeniti u podešavanjima |
+| API ključevi u MVP-u | korisnik ih unosi u podešavanjima, čuvaju se lokalno i šifrovano (OS keyring) |
+
+**Šta se mijenja u fazama za MVP:**
+- **Faze 2–5** se spajaju u jednu desktop aplikaciju. Server dolazi tek u fazi 7.
+- **Faza 1 (test provajdera)** se radi kad AWS proradi: Amazon Transcribe (en, sr?) naspram Whispera na AWS-u za srpski.
+- **Python i Pipecat ispadaju.** Sve je u TypeScriptu, a LiteLLM zamjenjuje naš mali LLM adapter sloj.
+
 ## Pregled
 
 | Faza | Šta | Trajanje | Rezultat |
